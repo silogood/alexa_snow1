@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\secure_dir\\STV_ATV_EMMC\\SnowboyAlexaDemo2 (2)\\SnowboyAlexaDemo2\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "C:\\secure_dir\\STV_ATV_EMMC\\SnowboyAlexaDemo2 (2)\\SnowboyAlexaDemo2\\res\\values\\strings.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6",
+                        "startColumns": "4,1,4,4,4",
+                        "startOffsets": "73,129,175,219,264",
+                        "endColumns": "53,41,42,43,42",
+                        "endOffsets": "122,169,213,258,302"
+                    },
+                    "to": {
+                        "startLines": "2,3,4,5,6",
+                        "startColumns": "4,4,4,4,4",
+                        "startOffsets": "55,109,154,197,241",
+                        "endColumns": "53,44,42,43,42",
+                        "endOffsets": "104,149,192,236,279"
+                    }
+                }
+            ]
+        }
+    ]
+}

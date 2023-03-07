@@ -1,0 +1,4 @@
+#Thu Mar 02 19:11:20 KST 2023
+base.0=C\:\\secure_dir\\STV_ATV_EMMC\\SnowboyAlexaDemo2 (2)\\SnowboyAlexaDemo2\\build\\intermediates\\dex\\debugAndroidTest\\mergeDexDebugAndroidTest\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

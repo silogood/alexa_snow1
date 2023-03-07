@@ -1,0 +1,13 @@
+ai.kitt.snowboy.demo:string/btn2_stop = 0x7f050004
+ai.kitt.snowboy.demo:string/btn2_start = 0x7f050003
+ai.kitt.snowboy.demo:string/btn1_stop = 0x7f050002
+ai.kitt.snowboy.demo:string/btn1_start = 0x7f050001
+ai.kitt.snowboy.demo:string/app_name = 0x7f050000
+ai.kitt.snowboy.demo:mipmap/ic_launcher = 0x7f040000
+ai.kitt.snowboy.demo:layout/main = 0x7f030000
+ai.kitt.snowboy.demo:id/logView = 0x7f020004
+ai.kitt.snowboy.demo:drawable/icon = 0x7f010000
+ai.kitt.snowboy.demo:id/btn_test2 = 0x7f020002
+ai.kitt.snowboy.demo:id/log = 0x7f020003
+ai.kitt.snowboy.demo:id/bottom = 0x7f020000
+ai.kitt.snowboy.demo:id/btn_test1 = 0x7f020001

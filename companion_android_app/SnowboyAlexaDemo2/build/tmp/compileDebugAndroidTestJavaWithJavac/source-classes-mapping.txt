@@ -1,0 +1,2 @@
+ai/kitt/snowboy/demo/test/BuildConfig.java
+ ai.kitt.snowboy.demo.test.BuildConfig

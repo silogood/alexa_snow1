@@ -1,0 +1,4 @@
+#Tue Mar 07 15:14:40 KST 2023
+base.0=C\:\\secure_dir\\STV_ATV_EMMC\\SnowboyAlexaDemo2 (2)\\SnowboyAlexaDemo2\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

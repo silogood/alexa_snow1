@@ -1,0 +1,57 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="ai.kitt.snowboy.demo"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk android:minSdkVersion="3" />
+7-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml
+8
+9    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+9-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:19:5-92
+9-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:19:22-73
+10    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+10-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:20:5-87
+10-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:20:22-68
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:21:5-83
+11-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:21:22-64
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:22:5-80
+12-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:22:22-78
+13
+14    <application
+14-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:5:5-17:19
+15        android:debuggable="true"
+16        android:icon="@mipmap/ic_launcher"
+16-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:5:51-85
+17        android:label="@string/app_name" >
+17-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:5:18-50
+18        <activity
+18-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:6:9-16:20
+19            android:name="ai.kitt.snowboy.Demo"
+19-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:6:19-54
+20            android:label="@string/app_name"
+20-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:8:19-51
+21            android:windowSoftInputMode="stateHidden" >
+21-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:7:16-57
+22            <intent-filter>
+22-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:9:13-15:29
+23                <action android:name="android.intent.action.MAIN" />
+23-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:10:17-69
+23-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:10:25-66
+24
+25                <category android:name="android.intent.category.DEFAULT" />
+25-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:12:17-75
+25-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:12:27-73
+26                <category android:name="android.intent.category.HOME" />
+26-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:13:17-72
+26-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:13:27-70
+27                <category android:name="android.intent.category.LAUNCHER" />
+27-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:14:17-77
+27-->C:\secure_dir\STV_ATV_EMMC\SnowboyAlexaDemo2 (2)\SnowboyAlexaDemo2\AndroidManifest.xml:14:27-74
+28            </intent-filter>
+29        </activity>
+30    </application>
+31
+32</manifest>
