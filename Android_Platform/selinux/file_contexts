@@ -1,0 +1,14 @@
+/vendor/bin/innodevice          u:object_r:innodevice_exec:s0
+
+/sys/class/leds(/.*)?           u:object_r:sysfs_led:s0
+/sys/class/leds/rcu/shot           u:object_r:sysfs_led:s0
+
+/sys/devices/platform/leds/leds(/.*)?   u:object_r:sysfs_led:s0
+/sys/devices/platform/leds/leds/rcu/shot   u:object_r:sysfs_led:s0
+/vendor/bin/wps.sh               u:object_r:inno_wps_exec:s0
+/data/system/alexa(/.*)?    u:object_r:alexa_data_file:s0
+/system/bin/SampleApp       u:object_r:alexa_exec:s0
+/system/bin/innopia_alexa\.sh   u:object_r:alexa_exec:s0
+/data/system/olli(/.*)?     u:object_r:alexa_data_file:s0
+/system/bin/SampleApp_Olli  u:object_r:alexa_exec:s0
+/system/bin/innopia_oli\.sh     u:object_r:alexa_exec:s0

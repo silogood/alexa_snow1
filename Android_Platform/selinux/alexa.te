@@ -1,0 +1,53 @@
+type alexa, domain;
+type alexa_exec, exec_type, system_file_type, file_type;
+type alexa_data_file, file_type, data_file_type, core_data_file_type;
+
+typeattribute alexa coredomain;
+
+init_daemon_domain(alexa)
+
+allow alexa alexa:udp_socket { ioctl create };
+allow alexa proc_net:file { getattr read open };
+allow alexa console_device:chr_file { write };
+allow alexa console_device:chr_file { open };
+allow alexa console_device:chr_file { getattr };
+allow alexa console_device:chr_file { ioctl };
+allow alexa console_device:chr_file { read };
+
+allow alexa alexa_data_file:dir { create search getattr read open write add_name remove_name setattr };
+allow alexa alexa_data_file:file { create getattr read open write unlink setattr };
+
+allow alexa toolbox_exec:file { getattr execute read open execute_no_trans map };
+allow alexa alexa_exec:file { execute execute_no_trans };
+
+allow alexa shell_exec:file { execute getattr map read };
+
+allow alexa alexa_data_file:file { map };
+allow alexa unlabeled:file { read open map getattr };
+
+allow alexa alexa_exec:file { entrypoint };
+
+allow alexa fwmarkd_socket:sock_file { write };
+allow netd alexa:fd { use };
+allow netd alexa:tcp_socket { getopt setopt read write };
+allow alexa dnsproxyd_socket:sock_file { write };
+allow alexa alexa:tcp_socket { create setopt getopt };
+allow alexa netd:unix_stream_socket { connectto };
+allow netd alexa:fd { use };
+allow alexa port:tcp_socket { name_connect };
+allow alexa alexa_data_file:file { lock };
+allow alexa shell_exec:file { open execute_no_trans };
+allow alexa sysfs_led:dir { search };
+allow alexa sysfs_led:file { write open };
+allow alexa servicemanager:binder { call };
+allow alexa system_server:binder { transfer };
+allow alexa audioserver:binder { call };
+allow alexa mediametrics:binder { call };
+allow audioserver alexa:binder { call };
+allow alexa audio_service:service_manager { find };
+allow alexa audioserver_service:service_manager { find };
+allow alexa mediametrics_service:service_manager { find };
+allow alexa alexa:tcp_socket { write read };
+
+type_transition alexa system_data_file: { dir file } alexa_data_file;
+
