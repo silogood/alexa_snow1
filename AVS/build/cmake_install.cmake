@@ -1,0 +1,101 @@
+# Install script for directory: /home2/silogood/alexa/AVS/avs-device-sdk
+
+# Set the install prefix
+if(NOT DEFINED CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX "/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install")
+endif()
+string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+
+# Set the install configuration name.
+if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
+  if(BUILD_TYPE)
+    string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
+           CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
+  else()
+    set(CMAKE_INSTALL_CONFIG_NAME "Debug")
+  endif()
+  message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
+endif()
+
+# Set the component getting installed.
+if(NOT CMAKE_INSTALL_COMPONENT)
+  if(COMPONENT)
+    message(STATUS "Install component: \"${COMPONENT}\"")
+    set(CMAKE_INSTALL_COMPONENT "${COMPONENT}")
+  else()
+    set(CMAKE_INSTALL_COMPONENT)
+  endif()
+endif()
+
+# Install shared libraries without execute permission?
+if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
+  set(CMAKE_INSTALL_SO_NO_EXE "1")
+endif()
+
+if("${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/lib/pkgconfig/AlexaClientSDK.pc")
+  if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+  if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  endif()
+file(INSTALL DESTINATION "/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/lib/pkgconfig" TYPE FILE FILES "/home2/silogood/alexa/AVS/build/AlexaClientSDK.pc")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for each subdirectory.
+  include("/home2/silogood/alexa/AVS/build/ThirdParty/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/Alerts/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/AssetManager/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/AudioPlayer/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/Bluetooth/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/DavsClient/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/DeviceSetup/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/DoNotDisturb/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/Equalizer/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/ExternalMediaPlayer/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/InputController/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/MultiRoomMusic/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/EXTENSION/Notifications/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/applications/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/AVSCommon/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Metrics/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/ACL/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/ADSL/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/AFML/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Captions/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/core/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/AVSGatewayManager/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/CertifiedSender/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Endpoints/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Settings/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/BluetoothImplementations/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/ContextManager/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/CapabilitiesDelegate/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/InterruptModel/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/PlaylistParser/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/CapabilityAgents/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Integration/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/SampleApp/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/ApplicationUtilities/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/MediaPlayer/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/shared/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/SpeechEncoder/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/Storage/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/SynchronizeStateSender/cmake_install.cmake")
+  include("/home2/silogood/alexa/AVS/build/doc/cmake_install.cmake")
+
+endif()
+
+if(CMAKE_INSTALL_COMPONENT)
+  set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
+else()
+  set(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
+endif()
+
+string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
+       "${CMAKE_INSTALL_MANIFEST_FILES}")
+file(WRITE "/home2/silogood/alexa/AVS/build/${CMAKE_INSTALL_MANIFEST}"
+     "${CMAKE_INSTALL_MANIFEST_CONTENT}")

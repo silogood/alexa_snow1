@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home2/silogood/alexa/AVS/avs-device-sdk/SampleApp/Authorization/CBLAuthDelegate/include/CBLAuthDelegate/CBLAuthRequesterInterface.h
+string
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/applications/acsdkSampleApplicationCBLAuthRequester/include/acsdkSampleApplicationCBLAuthRequester/SampleApplicationCBLAuthRequester.h
+memory
+-
+acsdkSampleApplicationInterfaces/UIManagerInterface.h
+-
+CBLAuthDelegate/CBLAuthRequesterInterface.h
+-
+acsdkAuthorizationInterfaces/LWA/CBLAuthorizationObserverInterface.h
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/applications/acsdkSampleApplicationCBLAuthRequester/src/SampleApplicationCBLAuthRequester.cpp
+iostream
+-
+sstream
+-
+acsdkSampleApplicationCBLAuthRequester/SampleApplicationCBLAuthRequester.h
+/home2/silogood/alexa/AVS/avs-device-sdk/applications/acsdkSampleApplicationCBLAuthRequester/src/acsdkSampleApplicationCBLAuthRequester/SampleApplicationCBLAuthRequester.h
+
+/home2/silogood/alexa/AVS/avs-device-sdk/applications/acsdkSampleApplicationInterfaces/include/acsdkSampleApplicationInterfaces/UIManagerInterface.h
+string
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Authorization/acsdkAuthorizationInterfaces/include/acsdkAuthorizationInterfaces/LWA/CBLAuthorizationObserverInterface.h
+string
+-
+

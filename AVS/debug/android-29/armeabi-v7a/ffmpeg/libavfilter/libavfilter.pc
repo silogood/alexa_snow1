@@ -1,0 +1,14 @@
+prefix=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install
+exec_prefix=${prefix}
+libdir=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/lib
+includedir=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 7.16.100
+Requires: 
+Requires.private: libavutil >= 56.14.100
+Conflicts:
+Libs: -L${libdir}  -lavfilter 
+Libs.private: -pthread -lm
+Cflags: -I${includedir}

@@ -1,0 +1,2 @@
+/home1/silogood/Android/ndk/ndk-bundle/android-ndk-r22/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar qc libacsdkPropertiesInterfacesTestLib.a  CMakeFiles/acsdkPropertiesInterfacesTestLib.dir/StubProperties.cpp.o CMakeFiles/acsdkPropertiesInterfacesTestLib.dir/StubPropertiesFactory.cpp.o
+/home1/silogood/Android/ndk/ndk-bundle/android-ndk-r22/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib libacsdkPropertiesInterfacesTestLib.a

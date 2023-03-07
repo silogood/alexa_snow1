@@ -1,0 +1,17 @@
+[Unit]
+Description=HTTP/2 proxy
+Documentation=man:nghttpx
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/bin/nghttpx --conf=/etc/nghttpx/nghttpx.conf
+ExecReload=/bin/kill --signal HUP $MAINPID
+KillSignal=SIGQUIT
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=full
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

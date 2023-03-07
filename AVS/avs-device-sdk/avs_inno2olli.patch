@@ -1,0 +1,96 @@
+--- a/ACL/src/Transport/DownchannelHandler.cpp
++++ b/ACL/src/Transport/DownchannelHandler.cpp
+@@ -34,7 +34,7 @@
+ using namespace avsCommon::utils::power;
+ 
+ /// Downchannel URL
+-const static std::string AVS_DOWNCHANNEL_URL_PATH_EXTENSION = "/v20160207/directives";
++const static std::string AVS_DOWNCHANNEL_URL_PATH_EXTENSION = "/20221111/directives";
+ 
+ /// Prefix for the ID of downchannel requests.
+ static const std::string DOWNCHANNEL_ID_PREFIX = "AVSDownChannel-";
+--- a/ACL/src/Transport/MessageRequestHandler.cpp
++++ b/ACL/src/Transport/MessageRequestHandler.cpp
+@@ -40,10 +40,10 @@
+ using namespace avsCommon::utils::power;
+ 
+ /// URL to send events to
+-const static std::string AVS_EVENT_URL_PATH_EXTENSION = "/v20160207/events";
++const static std::string AVS_EVENT_URL_PATH_EXTENSION = "/20221111/events";
+ 
+ /// Boundary for mime encoded requests
+-const static std::string MIME_BOUNDARY = "WhooHooZeerOoonie=";
++const static std::string MIME_BOUNDARY = "OlliMaikaVoiceService";
+ 
+ /// Timeout for transmission of data on a given stream
+ static const std::chrono::seconds STREAM_PROGRESS_TIMEOUT = std::chrono::seconds(15);
+--- a/AVSGatewayManager/src/AVSGatewayManager.cpp
++++ b/AVSGatewayManager/src/AVSGatewayManager.cpp
+@@ -44,7 +44,7 @@
+ static const std::string AVS_GATEWAY = "avsGateway";
+ 
+ /// Default @c AVS gateway to connect to.
+-static const std::string DEFAULT_AVS_GATEWAY = "https://alexa.na.gateway.devices.a2z.com";
++static const std::string DEFAULT_AVS_GATEWAY = "https://staging.mvs.maika.ai";
+ 
+ std::shared_ptr<avsCommon::sdkInterfaces::AVSGatewayManagerInterface> AVSGatewayManager::
+     createAVSGatewayManagerInterface(
+--- a/core/Authorization/acsdkAuthorization/src/LWA/LWAAuthorizationConfiguration.cpp
++++ b/core/Authorization/acsdkAuthorization/src/LWA/LWAAuthorizationConfiguration.cpp
+@@ -81,16 +81,16 @@
+ static const std::chrono::minutes DEFAULT_ACCESS_TOKEN_REFRESH_HEAD_START = std::chrono::minutes(10);
+ 
+ /// Default for configured base URL for @c LWA requests.
+-static const std::string DEFAULT_LWA_BASE_URL = "https://api.amazon.com/auth/O2/";
++static const std::string DEFAULT_LWA_BASE_URL = "https://staging.oauth2.iviet.com/oauth2/";
+ 
+ /// Path suffix for URL used in code pair requests to @C LWA.
+ static const std::string REQUEST_CODE_PAIR_PATH = "create/codepair";
+ 
+ /// Path suffix for URL used in code pair token requests to @c LWA.
+-static const std::string REQUEST_TOKEN_PATH = "token";
++static const std::string REQUEST_TOKEN_PATH = "access_token";
+ 
+ /// Path suffix for URl used in token refresh requests to @c LWA.
+-static const std::string REFRESH_TOKEN_PATH = "token";
++static const std::string REFRESH_TOKEN_PATH = "access_token";
+ 
+ /// Default for configured base URL for @c LWA requests.
+ static const std::string CUSTOMER_PROFILE_URL = "https://api.amazon.com/user/profile";
+--- a/tools/Install/genConfig.sh
++++ b/tools/Install/genConfig.sh
+@@ -146,7 +146,7 @@
+ # Arguments are: json_key
+ read_config_json()
+ {
+-python << EOF
++python3 << EOF
+ import json
+ value = ""
+ with open("${CONFIG_JSON_FILE}", "r") as f:
+@@ -158,11 +158,11 @@
+ }
+ 
+ CLIENT_ID=$(read_config_json "clientId")
+-if [[ ! "$CLIENT_ID" =~ amzn1\.application-oa2-client\.[0-9a-z]{32} ]]
+-then
+-   echo 'client ID is invalid!'
+-   exit 2
+-fi
++#if [[ ! "$CLIENT_ID" =~ amzn1\.application-oa2-client\.[0-9a-z]{32} ]]
++#then
++#   echo 'client ID is invalid!'
++#   exit 2
++#fi
+ 
+ PRODUCT_ID=$(read_config_json "productId")
+ if [[ ! "$PRODUCT_ID" =~ [0-9a-zA-Z_]+ ]]
+@@ -233,7 +233,7 @@
+ set +a
+ 
+ # Use python template substitute to generate $OUTPUT_CONFIG_FILE
+-python << EOF
++python3 << EOF
+ import os
+ from string import Template
+ with open("${INPUT_CONFIG_FILE}", "r") as f, open("${OUTPUT_CONFIG_FILE}", "w") as o:

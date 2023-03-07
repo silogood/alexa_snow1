@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+libdir="/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/nghttp2/lib"
+if [ -d "$libdir/.libs" ]; then
+    libdir="$libdir/.libs"
+fi
+
+export CGO_CFLAGS="-I/home2/silogood/alexa/AVS/Libraries/nghttp2/lib/includes -I/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/nghttp2/lib/includes"
+export CGO_LDFLAGS="-L$libdir"
+export LD_LIBRARY_PATH="$libdir"
+export GODEBUG=cgocheck=0
+"$@"

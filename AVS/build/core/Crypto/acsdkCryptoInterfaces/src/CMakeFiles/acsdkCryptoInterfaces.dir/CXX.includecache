@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Crypto/acsdkCryptoInterfaces/include/acsdkCryptoInterfaces/AlgorithmType.h
+ostream
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Crypto/acsdkCryptoInterfaces/include/acsdkCryptoInterfaces/DigestType.h
+ostream
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Crypto/acsdkCryptoInterfaces/src/AlgorithmType.cpp
+acsdkCryptoInterfaces/AlgorithmType.h
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Crypto/acsdkCryptoInterfaces/src/DigestType.cpp
+acsdkCryptoInterfaces/DigestType.h
+-
+

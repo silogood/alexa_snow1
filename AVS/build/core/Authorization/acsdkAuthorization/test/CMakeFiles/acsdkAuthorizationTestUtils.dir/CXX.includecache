@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Authorization/acsdkAuthorization/test/StubStorage.cpp
+acsdkAuthorization/LWA/test/StubStorage.h
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Authorization/acsdkAuthorization/test/include/acsdkAuthorization/LWA/test/StubStorage.h
+mutex
+-
+string
+-
+acsdkAuthorizationInterfaces/LWA/LWAAuthorizationStorageInterface.h
+-
+
+/home2/silogood/alexa/AVS/avs-device-sdk/core/Authorization/acsdkAuthorizationInterfaces/include/acsdkAuthorizationInterfaces/LWA/LWAAuthorizationStorageInterface.h
+string
+-
+

@@ -1,0 +1,14 @@
+prefix=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install
+exec_prefix=${prefix}
+libdir=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/lib
+includedir=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install/include
+
+Name: libavdevice
+Description: FFmpeg device handling library
+Version: 58.3.100
+Requires: 
+Requires.private: libavformat >= 58.12.100, libavcodec >= 58.18.100, libswresample >= 3.1.100, libavutil >= 56.14.100
+Conflicts:
+Libs: -L${libdir}  -lavdevice 
+Libs.private: -lm
+Cflags: -I${includedir}

@@ -1,0 +1,9 @@
+prefix=/home2/silogood/alexa/AVS/debug/android-29/armeabi-v7a/install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: OpenSSL
+Description: Secure Sockets Layer and cryptography libraries and tools
+Version: 1.1.0h
+Requires: libssl libcrypto
