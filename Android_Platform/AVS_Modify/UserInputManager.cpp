@@ -311,12 +311,26 @@ void UserInputManager::thread_function(){
     while(true) {
         poll(poll_fds.data(), poll_fds.size(), -1);
         for (auto &pfd : poll_fds) {
+
+            //ALEXA
             if (pfd.revents & POLLIN) {
                 if(read(pfd.fd, &ev, sizeof(ev)) == sizeof(ev)) {
 
                     if(ev.type == EV_KEY && ev.value == 1 && ev.code == 0x0246){
                         std::cout << "Key pressed! SILOGOOD VOICE KEY Code: " << ev.code << std::endl;
                        m_interactionManager->tap();
+                    }
+
+                }
+            }
+
+            //OLLI
+            if (pfd.revents & POLLIN) {
+                if(read(pfd.fd, &ev, sizeof(ev)) == sizeof(ev)) {
+
+                    if(ev.type == EV_KEY && ev.value == 1 && ev.code == 0x0073){
+                        std::cout << "Key pressed! SILOGOOD VOICE KEY Code: " << ev.code << std::endl;
+                        m_interactionManager->tap();
                     }
 
                 }
