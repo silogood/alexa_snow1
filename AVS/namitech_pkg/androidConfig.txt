@@ -1,0 +1,7 @@
+# Fill the lines below to configure android build.
+PLATFORM="android"
+API_LEVEL="23"
+TARGET_SYSTEM="arm"
+DEVICE_INSTALL_PATH="/data/system/alexa"
+BUILD_TYPE="release"
+NDK_PACKAGE="android-ndk-r22"

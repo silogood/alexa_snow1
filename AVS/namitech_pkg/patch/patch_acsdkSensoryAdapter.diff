@@ -1,0 +1,501 @@
+diff --git a/SampleApp/src/SampleApplication.cpp b/SampleApp/src/SampleApplication.cpp
+index f9bbc2f2..50a65149 100644
+--- a/SampleApp/src/SampleApplication.cpp
++++ b/SampleApp/src/SampleApplication.cpp
+@@ -61,6 +61,8 @@
+ 
+ #ifdef KWD
+ #include <KWDProvider/KeywordDetectorProvider.h>
++#include <Sensory/KWD_AIPTrigger.h>
++#include <Sensory/SensoryKeywordDetector.h>
+ #endif
+ 
+ #ifdef PORTAUDIO
+@@ -1520,7 +1522,9 @@ bool SampleApplication::initialize(
+ 
+     // // This observer is notified any time a keyword is detected and notifies the DefaultClient to start recognizing.
+     auto keywordObserver = KeywordObserver::create(m_client, wakeWordAudioProvider, m_keywordDetector);
+-
++    auto kwd_aipTrigger = alexaClientSDK::kwd::KWD_AIPTrigger::create(
++        std::dynamic_pointer_cast<alexaClientSDK::kwd::SensoryKeywordDetector>(m_keywordDetector));
++    m_client->addAudioInputProcessorObserver(kwd_aipTrigger);
+     // If wake word is enabled, then creating the interaction manager with a wake word audio provider.
+     m_interactionManager = std::make_shared<alexaClientSDK::sampleApp::InteractionManager>(
+         m_client,
+diff --git a/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/KWD_AIPTrigger.h b/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/KWD_AIPTrigger.h
+new file mode 100644
+index 00000000..75856610
+--- /dev/null
++++ b/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/KWD_AIPTrigger.h
+@@ -0,0 +1,49 @@
++#ifndef ACSDKSENSORYADAPTER_SENSORY_KWDAIPTRIGGER_H_
++#define ACSDKSENSORYADAPTER_SENSORY_KWDAIPTRIGGER_H_
++
++#include <AVSCommon/SDKInterfaces/AudioInputProcessorObserverInterface.h>
++#include <AVSCommon/SDKInterfaces/AVSConnectionManagerInterface.h>
++
++
++namespace alexaClientSDK {
++namespace kwd {
++class SensoryKeywordDetector;
++/**
++ * Class used to wake up connection retries when the user tries to use the client.
++ */
++class KWD_AIPTrigger : public avsCommon::sdkInterfaces::AudioInputProcessorObserverInterface {
++public:
++    /**
++     * Create a new AIPTrigger.
++     *
++     * @param connectionManager The AVSConnectionManager instance to wake.
++     * @param audioInputProcessor The AudioInputProcessor to listen to.
++     * @return
++     */
++    static std::shared_ptr<KWD_AIPTrigger> create(
++        std::shared_ptr<SensoryKeywordDetector> kwd);
++
++private:
++    /**
++     * Constructor.
++     *
++     * @param connectionManager The AVSConnectionManager instance to wake.
++     */
++    KWD_AIPTrigger(std::shared_ptr<SensoryKeywordDetector> kwd);
++
++    /// @name AudioInputProcessorObserverInterface methods.
++    /// @{
++    void onStateChanged(AudioInputProcessorObserverInterface::State state) override;
++    /// @}
++
++    /// The last state reported by AudioInputProcessor.
++    avsCommon::sdkInterfaces::AudioInputProcessorObserverInterface::State m_state;
++
++    /// The AVSConnectionManagerInstance to wake.
++    std::shared_ptr<SensoryKeywordDetector> m_kwd;
++};
++
++}  // namespace kwd
++}  // namespace alexaClientSDK
++
++#endif
+\ No newline at end of file
+diff --git a/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/SensoryKeywordDetector.h b/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/SensoryKeywordDetector.h
+index 7a812dd4..f7edc23e 100644
+--- a/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/SensoryKeywordDetector.h
++++ b/applications/acsdkSensoryAdapter/include/acsdkSensoryAdapter/Sensory/SensoryKeywordDetector.h
+@@ -29,7 +29,9 @@
+ #include <AVSCommon/SDKInterfaces/KeyWordObserverInterface.h>
+ #include <AVSCommon/Utils/AudioFormat.h>
+ 
+-#include "snsr.h"
++//#include "snsr.h"
++#include "wwe-wrapper.h"
++#include "KWD_AIPTrigger.h"
+ 
+ namespace alexaClientSDK {
+ namespace kwd {
+@@ -96,6 +98,11 @@ public:
+      */
+     ~SensoryKeywordDetector() override;
+ 
++    /**
++     * Wakeup WWE
++    */
++    void onWakeWWE();
++
+ private:
+     /**
+      * Constructor.
+@@ -116,7 +123,7 @@ private:
+         const std::shared_ptr<acsdkKWDInterfaces::KeywordNotifierInterface> keywordNotifier,
+         const std::shared_ptr<acsdkKWDInterfaces::KeywordDetectorStateNotifierInterface> KeywordDetectorStateNotifier,
+         avsCommon::utils::AudioFormat audioFormat,
+-        std::chrono::milliseconds msToPushPerIteration = std::chrono::milliseconds(10));
++        std::chrono::milliseconds msToPushPerIteration = std::chrono::milliseconds(250));
+ 
+     /**
+      * Initializes the stream reader, sets up the Sensory engine, and kicks off a thread to begin processing data from
+@@ -134,7 +141,7 @@ private:
+      * @param session The SnsrSession to set up runtime settings for.
+      * @return @c true if everything succeeded and @c false otherwise.
+      */
+-    bool setUpRuntimeSettings(SnsrSession* session);
++    //bool setUpRuntimeSettings(SnsrSession* session);
+ 
+     /// The main function that reads data and feeds it into the engine.
+     void detectionLoop();
+@@ -147,7 +154,7 @@ private:
+      * @param userData A pointer to the user data to pass along to the callback.
+      * @return @c SNSR_RC_OK if everything was processed properly, and a different error code otherwise.
+      */
+-    static SnsrRC keyWordDetectedCallback(SnsrSession s, const char* key, void* userData);
++    //static SnsrRC keyWordDetectedCallback(SnsrSession s, const char* key, void* userData);
+ 
+     /// Indicates whether the internal main loop should keep running.
+     std::atomic<bool> m_isShuttingDown;
+@@ -168,7 +175,9 @@ private:
+     std::thread m_detectionThread;
+ 
+     /// The Sensory handle.
+-    SnsrSession m_session;
++    //SnsrSession m_session;
++    wwe::WWEWrapper m_wweWrapper;
++    std::shared_ptr<alexaClientSDK::kwd::KWD_AIPTrigger> m_aipTrigger;
+ 
+     /**
+      * The max number of samples to push into the underlying engine per iteration. This will be determined based on the
+diff --git a/applications/acsdkSensoryAdapter/src/CMakeLists.txt b/applications/acsdkSensoryAdapter/src/CMakeLists.txt
+index 4acb6d91..bbacde9b 100644
+--- a/applications/acsdkSensoryAdapter/src/CMakeLists.txt
++++ b/applications/acsdkSensoryAdapter/src/CMakeLists.txt
+@@ -1,6 +1,7 @@
+ add_definitions("-DACSDK_LOG_MODULE=sensoryKeywordDetector")
+ add_library(SENSORY
+-    SensoryKeywordDetector.cpp)
++    SensoryKeywordDetector.cpp
++    KWD_AIPTrigger.cpp)
+ 
+ target_include_directories(SENSORY PUBLIC
+     "${SENSORY_KEY_WORD_DETECTOR_INCLUDE_DIR}"
+diff --git a/applications/acsdkSensoryAdapter/src/KWD_AIPTrigger.cpp b/applications/acsdkSensoryAdapter/src/KWD_AIPTrigger.cpp
+new file mode 100644
+index 00000000..8a2c6b96
+--- /dev/null
++++ b/applications/acsdkSensoryAdapter/src/KWD_AIPTrigger.cpp
+@@ -0,0 +1,40 @@
++#include <AVSCommon/Utils/Logger/Logger.h>
++#include <Sensory/KWD_AIPTrigger.h>
++
++#include "Sensory/SensoryKeywordDetector.h"
++
++namespace alexaClientSDK {
++namespace kwd {
++
++/// String to identify log entries originating from this file.
++static const std::string TAG("KWD_AIPTrigger");
++#define LX(event) alexaClientSDK::avsCommon::utils::logger::LogEntry(TAG, event)
++
++std::shared_ptr<KWD_AIPTrigger> KWD_AIPTrigger::create(
++    std::shared_ptr<SensoryKeywordDetector> kwd) {
++    if (!kwd) {
++        ACSDK_ERROR(LX("createFailed").d("reason", "SensoryKeywordDetector"));
++        return nullptr;
++    }
++
++    std::shared_ptr<KWD_AIPTrigger> kwd_aipTrigger(new KWD_AIPTrigger(kwd));
++
++    return kwd_aipTrigger;
++}
++
++KWD_AIPTrigger::KWD_AIPTrigger(
++    std::shared_ptr<SensoryKeywordDetector> kwd) :
++        m_state{AudioInputProcessorObserverInterface::State::IDLE},
++        m_kwd{kwd} {
++}
++
++void KWD_AIPTrigger::onStateChanged(AudioInputProcessorObserverInterface::State state) {
++    ACSDK_DEBUG9(LX(__func__).d("state", state));
++    if (AudioInputProcessorObserverInterface::State::IDLE == state && state != m_state) {
++        m_kwd->onWakeWWE();
++    }
++    m_state = state;
++}
++
++}
++}
+\ No newline at end of file
+diff --git a/applications/acsdkSensoryAdapter/src/SensoryKeywordDetector.cpp b/applications/acsdkSensoryAdapter/src/SensoryKeywordDetector.cpp
+index 58bbca60..7ee8c88d 100644
+--- a/applications/acsdkSensoryAdapter/src/SensoryKeywordDetector.cpp
++++ b/applications/acsdkSensoryAdapter/src/SensoryKeywordDetector.cpp
+@@ -36,7 +36,7 @@ static const std::string TAG("SensoryKeywordDetector");
+ #define LX(event) alexaClientSDK::avsCommon::utils::logger::LogEntry(TAG, event)
+ 
+ /// The number of hertz per kilohertz.
+-static const size_t HERTZ_PER_KILOHERTZ = 1000;
++//static const size_t HERTZ_PER_KILOHERTZ = 1000;
+ 
+ /// The timeout to use for read calls to the SharedDataStream.
+ const std::chrono::milliseconds TIMEOUT_FOR_READ_CALLS = std::chrono::milliseconds(1000);
+@@ -103,66 +103,6 @@ static bool isAudioFormatCompatibleWithSensory(avsCommon::utils::AudioFormat aud
+     return true;
+ }
+ 
+-/**
+- * Returns information about the ongoing sensory session. Primarily used to populate error messages.
+- *
+- * @param session The Sensory session handle.
+- * @param result The Sensory return code.
+- *
+- * @return The pertinent message about the sensory session in string format.
+- */
+-static std::string getSensoryDetails(SnsrSession session, SnsrRC result) {
+-    std::string message;
+-    // It is recommended by Sensory to prefer snsrErrorDetail() over snsrRCMessage() as it provides more details.
+-    if (session) {
+-        message = snsrErrorDetail(session);
+-    } else {
+-        message = snsrRCMessage(result);
+-    }
+-    if (message.empty()) {
+-        message = "Unrecognized error";
+-    }
+-    return message;
+-}
+-
+-SnsrRC SensoryKeywordDetector::keyWordDetectedCallback(SnsrSession s, const char* key, void* userData) {
+-    SensoryKeywordDetector* engine = static_cast<SensoryKeywordDetector*>(userData);
+-    SnsrRC result;
+-    const char* keyword;
+-    double begin;
+-    double end;
+-    result = snsrGetDouble(s, SNSR_RES_BEGIN_SAMPLE, &begin);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("keyWordDetectedCallbackFailed")
+-                        .d("reason", "invalidBeginIndex")
+-                        .d("error", getSensoryDetails(s, result)));
+-        return result;
+-    }
+-
+-    result = snsrGetDouble(s, SNSR_RES_END_SAMPLE, &end);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("keyWordDetectedCallbackFailed")
+-                        .d("reason", "invalidEndIndex")
+-                        .d("error", getSensoryDetails(s, result)));
+-        return result;
+-    }
+-
+-    result = snsrGetString(s, SNSR_RES_TEXT, &keyword);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("keyWordDetectedCallbackFailed")
+-                        .d("reason", "keywordRetrievalFailure")
+-                        .d("error", getSensoryDetails(s, result)));
+-        return result;
+-    }
+-
+-    engine->notifyKeyWordObservers(
+-        engine->m_stream,
+-        keyword,
+-        engine->m_beginIndexOfStreamReader + begin,
+-        engine->m_beginIndexOfStreamReader + end);
+-    return SNSR_RC_OK;
+-}
+-
+ // Deprecated create method.
+ std::unique_ptr<SensoryKeywordDetector> SensoryKeywordDetector::create(
+     std::shared_ptr<avsCommon::avs::AudioInputStream> stream,
+@@ -230,7 +170,7 @@ SensoryKeywordDetector::~SensoryKeywordDetector() {
+     if (m_detectionThread.joinable()) {
+         m_detectionThread.join();
+     }
+-    snsrRelease(m_session);
++    //snsrRelease(m_session);
+ }
+ 
+ SensoryKeywordDetector::SensoryKeywordDetector(
+@@ -241,8 +181,7 @@ SensoryKeywordDetector::SensoryKeywordDetector(
+     std::chrono::milliseconds msToPushPerIteration) :
+         acsdkKWDImplementations::AbstractKeywordDetector(keywordNotifier, keywordDetectorStateNotifier),
+         m_stream{stream},
+-        m_session{nullptr},
+-        m_maxSamplesPerPush((audioFormat.sampleRateHz / HERTZ_PER_KILOHERTZ) * msToPushPerIteration.count()) {
++        m_maxSamplesPerPush(SENSORY_COMPATIBLE_SAMPLE_RATE) {
+ }
+ 
+ bool SensoryKeywordDetector::init(const std::string& modelFilePath) {
+@@ -252,103 +191,29 @@ bool SensoryKeywordDetector::init(const std::string& modelFilePath) {
+         return false;
+     }
+ 
+-    // Allocate the Sensory library handle
+-    SnsrRC result = snsrNew(&m_session);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("initFailed")
+-                        .d("reason", "allocatingNewSessionFailed")
+-                        .d("error", getSensoryDetails(m_session, result)));
+-        return false;
+-    }
+-
+-    // Get the expiration date of the library
+-    const char* info = nullptr;
+-    result = snsrGetString(m_session, SNSR_LICENSE_EXPIRES, &info);
+-    if (result == SNSR_RC_OK && info) {
+-        // Will print "License expires on <date>"
+-        ACSDK_INFO(LX(info));
+-    } else {
+-        ACSDK_INFO(LX("Sensory library license does not expire."));
+-    }
+-
+-    // Check if the expiration date is near, then we should display a warning
+-    result = snsrGetString(m_session, SNSR_LICENSE_WARNING, &info);
+-    if (result == SNSR_RC_OK && info) {
+-        // Will print "License will expire in <days-until-expiration> days."
+-        ACSDK_WARN(LX(info));
+-    } else {
+-        ACSDK_INFO(LX("Sensory library license does not expire for at least 60 more days."));
+-    }
+-
+-    result = snsrLoad(m_session, snsrStreamFromFileName(modelFilePath.c_str(), "r"));
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(
+-            LX("initFailed").d("reason", "loadingSensoryModelFailed").d("error", getSensoryDetails(m_session, result)));
+-        return false;
+-    }
+-
+-    result = snsrRequire(m_session, SNSR_TASK_TYPE, SNSR_PHRASESPOT);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("initFailed")
+-                        .d("reason", "invalidTaskType")
+-                        .d("expected", "SNSR_PHRASESPOT")
+-                        .d("error", getSensoryDetails(m_session, result)));
+-        return false;
+-    }
+-
+-    if (!setUpRuntimeSettings(&m_session)) {
+-        return false;
+-    }
++    m_wweWrapper.Init(modelFilePath.c_str());
++    m_wweWrapper.Reset();
+ 
+     m_isShuttingDown = false;
+     m_detectionThread = std::thread(&SensoryKeywordDetector::detectionLoop, this);
+     return true;
+ }
+ 
+-bool SensoryKeywordDetector::setUpRuntimeSettings(SnsrSession* session) {
+-    if (!session) {
+-        ACSDK_ERROR(LX("setUpRuntimeSettingsFailed").d("reason", "nullSession"));
+-        return false;
+-    }
+-
+-    // Setting the callback handler
+-    SnsrRC result = snsrSetHandler(
+-        *session, SNSR_RESULT_EVENT, snsrCallback(keyWordDetectedCallback, nullptr, reinterpret_cast<void*>(this)));
+-
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("setUpRuntimeSettingsFailed")
+-                        .d("reason", "setKeywordDetectionHandlerFailure")
+-                        .d("error", getSensoryDetails(*session, result)));
+-        return false;
+-    }
+-
+-    /*
+-     * Turns off automatic pipeline flushing that happens when the end of the input stream is reached. This is an
+-     * internal setting recommended by Sensory when audio is presented to Sensory in small chunks.
+-     */
+-    result = snsrSetInt(*session, SNSR_AUTO_FLUSH, 0);
+-    if (result != SNSR_RC_OK) {
+-        ACSDK_ERROR(LX("setUpRuntimeSettingsFailed")
+-                        .d("reason", "disableAutoPipelineFlushingFailed")
+-                        .d("error", getSensoryDetails(*session, result)));
+-        return false;
+-    }
+-
+-    return true;
+-}
+ 
+ void SensoryKeywordDetector::detectionLoop() {
+     m_beginIndexOfStreamReader = m_streamReader->tell();
+     notifyKeyWordDetectorStateObservers(KeyWordDetectorStateObserverInterface::KeyWordDetectorState::ACTIVE);
+     std::vector<int16_t> audioDataToPush(m_maxSamplesPerPush);
+-    SnsrRC result;
++    int step = 4000;
++    int remain_wordsRead = step;
++    int result=0;
+     while (!m_isShuttingDown) {
+         bool didErrorOccur = false;
+         auto wordsRead = readFromStream(
+             m_streamReader,
+             m_stream,
+-            audioDataToPush.data(),
+-            audioDataToPush.size(),
++            &audioDataToPush[step-remain_wordsRead],
++            remain_wordsRead,
+             TIMEOUT_FOR_READ_CALLS,
+             &didErrorOccur);
+         if (didErrorOccur) {
+@@ -363,45 +228,35 @@ void SensoryKeywordDetector::detectionLoop() {
+              * relative to it.
+              */
+             m_beginIndexOfStreamReader = m_streamReader->tell();
+-            SnsrSession newSession{nullptr};
+-            /*
+-             * This duplicated SnsrSession will have all the same configurations as m_session but none of the runtime
+-             * settings. Thus, we will need to setup some of the runtime settings again. The reason for creating a new
+-             * session is so that on overrun conditions, Sensory can start counting from 0 again.
+-             */
+-            result = snsrDup(m_session, &newSession);
+-            if (result != SNSR_RC_OK) {
+-                ACSDK_ERROR(LX("detectionLoopFailed")
+-                                .d("reason", "sessionDuplicationFailed")
+-                                .d("error", getSensoryDetails(newSession, result)));
+-                break;
+-            }
+-
+-            if (!setUpRuntimeSettings(&newSession)) {
+-                break;
+-            }
+-
+-            m_session = newSession;
++            m_wweWrapper.Reset();
++            remain_wordsRead = step;
++           
+         } else if (wordsRead > 0) {
++            remain_wordsRead -= wordsRead;
++            if (remain_wordsRead>0) continue;
+             // Words were successfully read.
+-            snsrSetStream(
+-                m_session,
+-                SNSR_SOURCE_AUDIO_PCM,
+-                snsrStreamFromMemory(
+-                    audioDataToPush.data(), wordsRead * sizeof(*audioDataToPush.data()), SNSR_ST_MODE_READ));
+-            result = snsrRun(m_session);
++            remain_wordsRead = step;
++            result = m_wweWrapper.RunDetection(&audioDataToPush[0], step);
+             switch (result) {
+-                case SNSR_RC_STREAM_END:
+-                    // Reached end of buffer without any keyword detections
++                case 0:
++                    break;
++                case -2:
++                    break;
++                case 1:
++                    std::cout << "=== NamiWWEDetect Hi FPT oi ===" << std::endl;
++                    notifyKeyWordObservers( m_stream, "hiFPT/FPToi", 
++                        KeyWordObserverInterface::UNSPECIFIED_INDEX, 
++                        m_streamReader->tell());
++                    m_wweWrapper.SetState(wwe::WWEWrapperBase::State::WWE_STOP_STATE);
+                     break;
+-                case SNSR_RC_OK:
++                case 2:
++                    std::cout << "=== SnowboyDetect Alexa ===" << std::endl;
++                    notifyKeyWordObservers( m_stream, "Alexa", 
++                        KeyWordObserverInterface::UNSPECIFIED_INDEX, 
++                        m_streamReader->tell());
++                    m_wweWrapper.SetState(wwe::WWEWrapperBase::State::WWE_STOP_STATE);
+                     break;
+                 default:
+-                    // A different return from the callback function that indicates some sort of error
+-                    ACSDK_ERROR(LX("detectionLoopFailed")
+-                                    .d("reason", "unexpectedReturn")
+-                                    .d("error", getSensoryDetails(m_session, result)));
+-
+                     notifyKeyWordDetectorStateObservers(
+                         KeyWordDetectorStateObserverInterface::KeyWordDetectorState::ERROR);
+                     didErrorOccur = true;
+@@ -412,10 +267,15 @@ void SensoryKeywordDetector::detectionLoop() {
+             }
+         }
+         // Reset return code for next round
+-        snsrClearRC(m_session);
++        //snsrClearRC(m_session);
+     }
+     m_streamReader->close();
+ }
+ 
++void SensoryKeywordDetector::onWakeWWE()
++{
++    m_wweWrapper.SetState(wwe::WWEWrapperBase::State::WWE_RUN_STATE);
++}
++
+ }  // namespace kwd
+ }  // namespace alexaClientSDK

@@ -1,0 +1,6 @@
+{
+    "snowboy_wwe": {
+        "resource_filename" : "/path/to/file/snowboy/common.res",
+        "model_filename" : "/path/to/file/snowboy/alexa_02092017.umdl"       
+    }    
+}
